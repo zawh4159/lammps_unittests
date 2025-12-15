@@ -1,0 +1,168 @@
+LAMMPS (4 Feb 2025)
+Created orthogonal box = (-1 -1 -1) to (1 1 1)
+  1 by 1 by 1 MPI processor grid
+Created 1 atoms
+  using lattice units in orthogonal box = (-1 -1 -1) to (1 1 1)
+  create_atoms CPU = 0.000 seconds
+Created 1 atoms
+  using lattice units in orthogonal box = (-1 -1 -1) to (1 1 1)
+  create_atoms CPU = 0.000 seconds
+Setting atom values ...
+  1 settings made for diameter
+Setting atom values ...
+  1 settings made for diameter
+Setting atom values ...
+  1 settings made for density
+Setting atom values ...
+  1 settings made for density
+WARNING: No fixes with time integration, atoms won't move (../verlet.cpp:60)
+Setting up Verlet run ...
+  Unit style    : lj
+  Current step  : 0
+  Time step     : 0.005
+WARNING: No pairwise cutoff or binsize set. Atom sorting therefore disabled. (../atom.cpp:2443)
+WARNING: Communication cutoff is 0.0. No ghost atoms will be generated. Atoms may get lost. (../comm_brick.cpp:212)
+Per MPI rank memory allocation (min/avg/max) = 3.547 | 3.547 | 3.547 Mbytes
+   Step          Temp          E_pair         E_mol          TotEng         Press     
+         0   0              0              0              0              0            
+Loop time of 6.26e-07 on 1 procs for 0 steps with 2 atoms
+
+0.0% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 6.26e-07   |            |       |100.00
+
+Nlocal:              2 ave           2 max           2 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 0
+Ave neighs/atom = 0
+Neighbor list builds = 0
+Dangerous builds = 0
+1 atoms in group left
+1 atoms in group right
+Generated 0 of 1 mixed pair_coeff terms from geometric mixing rule
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 0.32
+  ghost atom cutoff = 0.32
+  binsize = 0.16, bins = 13 13 13
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair granular, perpetual
+      attributes: half, newton on, size, history
+      pair build: half/size/bin/atomonly/newton
+      stencil: half/bin/3d
+      bin: standard
+Setting up Verlet run ...
+  Unit style    : lj
+  Current step  : 0
+  Time step     : 0.005
+Per MPI rank memory allocation (min/avg/max) = 9.857 | 9.857 | 9.857 Mbytes
+   Step          Temp          E_pair         E_mol          TotEng         Press     
+         0   0              0              0              0              0            
+Loop time of 5.71e-07 on 1 procs for 0 steps with 2 atoms
+
+175.1% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 5.71e-07   |            |       |100.00
+
+Nlocal:              2 ave           2 max           2 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              1 ave           1 max           1 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 1
+Ave neighs/atom = 0.5
+Neighbor list builds = 0
+Dangerous builds = 0
+Generated 0 of 1 mixed pair_coeff terms from geometric mixing rule
+Setting up Verlet run ...
+  Unit style    : lj
+  Current step  : 0
+  Time step     : 0.005
+Per MPI rank memory allocation (min/avg/max) = 9.857 | 9.857 | 9.857 Mbytes
+   Step          Temp          E_pair         E_mol          TotEng         Press     
+         0   0              0              0              0              0            
+Loop time of 5.29e-07 on 1 procs for 0 steps with 2 atoms
+
+0.0% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 5.29e-07   |            |       |100.00
+
+Nlocal:              2 ave           2 max           2 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              1 ave           1 max           1 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 1
+Ave neighs/atom = 0.5
+Neighbor list builds = 0
+Dangerous builds = 0
+Generated 0 of 1 mixed pair_coeff terms from geometric mixing rule
+Setting up Verlet run ...
+  Unit style    : lj
+  Current step  : 0
+  Time step     : 1e-10
+Per MPI rank memory allocation (min/avg/max) = 9.857 | 9.857 | 9.857 Mbytes
+   Step          Temp          E_pair         E_mol          TotEng         Press     
+         0   0.7819075      0              0              0.58643063     0.097738438  
+    600000   0.7819075      0              0              0.58643063     0.097738438  
+Loop time of 6.48316 on 1 procs for 600000 steps with 2 atoms
+
+Performance: 0.800 tau/day, 92547.423 timesteps/s, 185.095 katom-step/s
+91.4% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.098866   | 0.098866   | 0.098866   |   0.0 |  1.52
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.17091    | 0.17091    | 0.17091    |   0.0 |  2.64
+Output  | 3.1967e-05 | 3.1967e-05 | 3.1967e-05 |   0.0 |  0.00
+Modify  | 5.9836     | 5.9836     | 5.9836     |   0.0 | 92.29
+Other   |            | 0.2298     |            |       |  3.54
+
+Nlocal:              2 ave           2 max           2 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              1 ave           1 max           1 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 1
+Ave neighs/atom = 0.5
+Neighbor list builds = 0
+Dangerous builds = 0
+Total wall time: 0:00:06

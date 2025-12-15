@@ -1,0 +1,15 @@
+#!/bin/bash
+#SBATCH --nodes=1
+#SBATCH --time=0:10:00
+#SBATCH --account=fy150035
+#SBATCH --job-name=restitution
+#SBATCH --partition=short,batch
+#SBATCH --licenses=tscratch
+##SBATCH --qos=long
+
+
+nodes=$SLURM_JOB_NUM_NODES
+cores=1
+
+mpiexec --bind-to core --npernode $cores --n $(($cores*$nodes)) /ascldap/users/serenfr/executables/lmp_mpi_4feb2025 -in in.normal_simple -nocite
+

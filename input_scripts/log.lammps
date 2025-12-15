@@ -1,0 +1,242 @@
+LAMMPS (4 Feb 2025)
+###             Simulation Parameters (timesteps, number of particles)
+
+variable        thermo_freq     equal 1
+variable        Tstep           equal 1e-10
+
+# units are: 1 kg, 1 m, 1 s
+
+
+# All material properties and starting configuration data from Chung & Ooi, Granular Matter 2001 13:643-656
+#Baseds on Glass spheres from Test No.1
+
+
+############################# Interaction parameters
+
+variable   Emod equal 4.8e10 			# 4.8e10 N/m^2 => Young's Modulus
+variable   poisson equal 0.20 			#Poisson's Ratio
+variable   CoR equal 1.0			# Coefficient of Restitution
+variable   density equal 2800	 		# g/L^3 => Particle Density
+variable   mus equal 0.35			#Friction coefficient
+
+variable   vel1 equal 10			#Initial velocity (m/s)
+variable   vel2 equal -10			#Initial velocity (m/s)
+
+variable   runtime equal 600000
+
+############################## Simulation parameters
+
+atom_style      sphere
+boundary        p p p
+
+region 		box block -1 1 -1 1 -1 1
+create_box 	2 box
+Created orthogonal box = (-1 -1 -1) to (1 1 1)
+  1 by 1 by 1 MPI processor grid
+
+create_atoms	1 single -0.01001 0 0
+Created 1 atoms
+  using lattice units in orthogonal box = (-1 -1 -1) to (1 1 1)
+  create_atoms CPU = 0.000 seconds
+create_atoms	2 single 0.01 0 0
+Created 1 atoms
+  using lattice units in orthogonal box = (-1 -1 -1) to (1 1 1)
+  create_atoms CPU = 0.000 seconds
+
+set		type 1 diameter 0.02
+Setting atom values ...
+  1 settings made for diameter
+set		type 2 diameter 0.02
+Setting atom values ...
+  1 settings made for diameter
+
+set		type 1 density ${density}
+set		type 1 density 2800
+Setting atom values ...
+  1 settings made for density
+set		type 2 density ${density}
+set		type 2 density 2800
+Setting atom values ...
+  1 settings made for density
+
+compute         mass all property/atom mass
+
+run             0
+WARNING: No fixes with time integration, atoms won't move (../verlet.cpp:60)
+WARNING: No pairwise cutoff or binsize set. Atom sorting therefore disabled. (../atom.cpp:2443)
+WARNING: Communication cutoff is 0.0. No ghost atoms will be generated. Atoms may get lost. (../comm_brick.cpp:212)
+Per MPI rank memory allocation (min/avg/max) = 3.547 | 3.547 | 3.547 Mbytes
+   Step          Temp          E_pair         E_mol          TotEng         Press     
+         0   0              0              0              0              0            
+Loop time of 6.26e-07 on 1 procs for 0 steps with 2 atoms
+
+0.0% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 6.26e-07   |            |       |100.00
+
+Nlocal:              2 ave           2 max           2 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 0
+Ave neighs/atom = 0
+Neighbor list builds = 0
+Dangerous builds = 0
+
+neighbor        0.3 bin
+neigh_modify    delay 0
+comm_modify     vel yes
+
+###             Grain-grain interaction
+pair_style      granular
+pair_coeff	* * hertz/material ${Emod} 0 ${poisson} 		tangential mindlin NULL 0.0 ${mus}
+pair_coeff	* * hertz/material 48000000000 0 ${poisson} 		tangential mindlin NULL 0.0 ${mus}
+pair_coeff	* * hertz/material 48000000000 0 0.2 		tangential mindlin NULL 0.0 ${mus}
+pair_coeff	* * hertz/material 48000000000 0 0.2 		tangential mindlin NULL 0.0 0.35
+
+fix		1 all nve/sphere
+
+group		left type 1
+1 atoms in group left
+group		right type 2
+1 atoms in group right
+
+run		0
+Generated 0 of 1 mixed pair_coeff terms from geometric mixing rule
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 0.32
+  ghost atom cutoff = 0.32
+  binsize = 0.16, bins = 13 13 13
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair granular, perpetual
+      attributes: half, newton on, size, history
+      pair build: half/size/bin/atomonly/newton
+      stencil: half/bin/3d
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 9.857 | 9.857 | 9.857 Mbytes
+   Step          Temp          E_pair         E_mol          TotEng         Press     
+         0   0              0              0              0              0            
+Loop time of 5.71e-07 on 1 procs for 0 steps with 2 atoms
+
+175.1% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 5.71e-07   |            |       |100.00
+
+Nlocal:              2 ave           2 max           2 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              1 ave           1 max           1 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 1
+Ave neighs/atom = 0.5
+Neighbor list builds = 0
+Dangerous builds = 0
+
+variable 	STEP equal step
+
+variable 	xcom1 equal xcm(left,x)
+variable	vcom1 equal vcm(left,x)
+variable	fxcom1 equal fcm(left,x)
+
+variable        xcom2 equal xcm(right,x)
+variable        vcom2 equal vcm(right,x)
+variable        fxcom2 equal fcm(right,x)
+
+run		0
+Generated 0 of 1 mixed pair_coeff terms from geometric mixing rule
+Per MPI rank memory allocation (min/avg/max) = 9.857 | 9.857 | 9.857 Mbytes
+   Step          Temp          E_pair         E_mol          TotEng         Press     
+         0   0              0              0              0              0            
+Loop time of 5.29e-07 on 1 procs for 0 steps with 2 atoms
+
+0.0% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 5.29e-07   |            |       |100.00
+
+Nlocal:              2 ave           2 max           2 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              1 ave           1 max           1 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 1
+Ave neighs/atom = 0.5
+Neighbor list builds = 0
+Dangerous builds = 0
+
+velocity 	left set ${vel1} 0 0
+velocity 	left set 10 0 0
+velocity	right set ${vel2} 0 0
+velocity	right set -10 0 0
+
+fix 		OUT all print ${thermo_freq} "${STEP} ${xcom1} ${vcom1} ${fxcom1} ${xcom2} ${vcom2} ${fxcom2}" file output/contact.evol screen no
+fix 		OUT all print 1 "${STEP} ${xcom1} ${vcom1} ${fxcom1} ${xcom2} ${vcom2} ${fxcom2}" file output/contact.evol screen no
+
+timestep	${Tstep}
+timestep	1e-10
+run		${runtime}
+run		600000
+Generated 0 of 1 mixed pair_coeff terms from geometric mixing rule
+Per MPI rank memory allocation (min/avg/max) = 9.857 | 9.857 | 9.857 Mbytes
+   Step          Temp          E_pair         E_mol          TotEng         Press     
+         0   0.7819075      0              0              0.58643063     0.097738438  
+    600000   0.7819075      0              0              0.58643063     0.097738438  
+Loop time of 6.48316 on 1 procs for 600000 steps with 2 atoms
+
+Performance: 0.800 tau/day, 92547.423 timesteps/s, 185.095 katom-step/s
+91.4% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.098866   | 0.098866   | 0.098866   |   0.0 |  1.52
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.17091    | 0.17091    | 0.17091    |   0.0 |  2.64
+Output  | 3.1967e-05 | 3.1967e-05 | 3.1967e-05 |   0.0 |  0.00
+Modify  | 5.9836     | 5.9836     | 5.9836     |   0.0 | 92.29
+Other   |            | 0.2298     |            |       |  3.54
+
+Nlocal:              2 ave           2 max           2 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              1 ave           1 max           1 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 1
+Ave neighs/atom = 0.5
+Neighbor list builds = 0
+Dangerous builds = 0
+Total wall time: 0:00:06
