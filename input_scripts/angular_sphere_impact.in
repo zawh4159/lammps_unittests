@@ -1,0 +1,107 @@
+############################
+### Simulation Parameters ##
+############################
+units           si
+dimension       3
+boundary        f f f
+
+atom_style      sphere
+region          box block -1 1 -1 1 -1 1
+create_box      2 box
+
+create_atoms    1 single -0.05 0 0
+create_atoms    2 single  0.05 0 0
+
+neighbor        0.3 bin
+neigh_modify    delay 0
+comm_modify     vel yes
+
+############################
+### Numerical Parameters ###
+############################
+variable        dt equal 1e-8
+
+variable        vel1 equal 2.0
+variable        vel2 equal -2.0
+
+variable        omega1 equal 22
+variable        omega2 equal -22
+
+variable        Nrun equal 8e6
+variable        nout equal 1000
+
+############################
+### Material Parameters  ###
+############################
+# Fixed constants
+variable        Emod equal 7e10
+variable        Poissons equal 0.33
+variable        Rho equal 2700
+variable        D equal 0.005
+
+variable        e equal 0.5
+variable        mu equal 0.4
+
+#Set properties
+set             type 1 diameter ${D}
+set             type 2 diameter ${D}
+
+set             type 1 density ${Rho}
+set             type 2 density ${Rho}
+
+############################
+#  Wall & Pair Interacions #
+############################
+pair_style      granular
+pair_coeff	    * * hertz/material ${Emod} ${e} ${Poissons} damping coeff_restitution tangential mindlin NULL 0.5 ${mu}
+
+#fix             1 all wall/gran granular hertz/material ${Emod} ${e} ${Poissons} tangential mindlin NULL 0.5 ${mu} damping coeff_restitution xplane -0.8 0.01 
+run             0
+
+############################
+# Final fixes and computes #
+############################
+fix             2 all nve/sphere
+variable 	    STEP equal step
+
+group		    particle1 type 1
+group           particle2 type 2
+
+run             0
+
+compute         1 particle1 property/atom omegaz
+compute         2 particle1 reduce ave c_1
+
+compute         3 particle2 property/atom omegaz
+compute         4 particle2 reduce ave c_3
+
+variable 	    xcom1 equal xcm(particle1,x)
+variable	    vxcom1 equal vcm(particle1,x)
+variable	    vycom1 equal vcm(particle1,y)
+variable	    fcom1 equal fcm(particle1,x)
+
+variable 	    xcom2 equal xcm(particle2,x)
+variable	    vxcom2 equal vcm(particle2,x)
+variable	    vycom2 equal vcm(particle2,y)
+variable	    fcom2 equal fcm(particle2,x)
+
+variable        omg1 equal c_2
+variable        omg2 equal c_4
+
+run             0 
+
+velocity 	    particle1 set ${vel1} 0 0
+velocity 	    particle2 set ${vel2} 0 0
+
+set             type 1 omega 0 0 ${omega1}
+set             type 2 omega 0 0 ${omega2}
+
+# Dumps and prints
+#dump            1 all custom ${nout} dump/atom.dump id type xs ys zs vx vy vz fx fy fz 
+fix             printF all print ${nout} "${STEP} ${xcom1} ${vxcom1} ${vycom1} ${fcom1} ${xcom2} ${vxcom2} ${vycom2} ${fcom2} ${omg1} ${omg2}" file dump/normal_contact.out screen no title ""
+
+############################
+# Run  #
+############################
+timestep        ${dt}
+run             ${Nrun}
